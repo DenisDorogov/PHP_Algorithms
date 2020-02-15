@@ -18,7 +18,7 @@ function divisibility($num, SplMaxHeap $dividers) {
 
 //    }
 
-    return $result;
+    return $dividers->extract();
 }
 
 var_dump(divisibility($number, $dividers));
