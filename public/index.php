@@ -2,23 +2,24 @@
 const PATH_PUBLIC = "/domains/PHP.ALGO/public";
 
 $path = PATH_PUBLIC;
+$list = '';
 
-$url = $_SERVER['REQUEST_URI'];
+//$url = $_SERVER['REQUEST_URI'];
 
 function render($path) {
     $dir = new DirectoryIterator($path);
     $upDir = substr_replace($path, '', strrpos($path, '/'));
-    echo "<a href='$upDir'>{$path}</a>";
-    echo "<list>";
+    $list = "<a href=\'{$upDir}\'>{$path}</a><list>";
     foreach ($dir as $item) {
         if ($item == '.' || $item == '..') continue;
-//    echo $item. '/';
-        echo "<li><a href='/{$item}'>{$item}</a></li>";
+        $list = $list . "<li><a href='/{$item}'>{$item}</a></li>";
     }
-    echo '</list>';
+    $list = $list . '</list>';
+    return $list;
 }
+$list = render($path);
 
-render($path);
+//var_dump($_POST);
 
 
 ?><!DOCTYPE html>
@@ -28,6 +29,10 @@ render($path);
     <title>Проводник</title>
 </head>
 <body>
+<form action="index.php">
+    <?=$list?>
+
+</form>
 
 </body>
 </html>
