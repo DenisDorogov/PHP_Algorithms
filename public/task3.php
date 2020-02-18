@@ -35,41 +35,34 @@ function spiral($x, $y) {
 
 function spiralSTD($x, $y) {
     global $array, $counter;
-    for ($i = 0; $i<$x; $i++) {
-        $array[0][$i] = $counter++;
-        echo $array[0][$i];
+    for ($i = 0; $i<$x; $i++) {//i-столбцы,
+        $array[0][$i] = $counter++; //[строка][столбец]
     }
-    echo '<br>';
     for ($j = 1; $j<$y; $j++) {
         $array[$j][$i-1] = $counter++;
-        echo $array[$j][$i-1];
     }
-    echo '<br>';
-
-    for ($i = $i-1; $i>0; $i--) {
-        $array[$j][$i] = $counter++;
-        echo $array[$j][$i];
-
+    for ($i = $i-2; $i>=0; $i--) {
+        $array[$j-1][$i] = $counter++;
     }
-    echo '<br>';
-
+    echo $i;
+    echo $j;
     for ($j = $j-2; $j>0; $j--) {
-        $array[$j][$i] = $counter++;
-        echo $array[$j][$i];
-
+        $array[$j][$i+1] = $counter++;
     }
 }
 
 function render($array) {
-    foreach ($array as $row) {
-        var_dump($row);
+    global $a, $b;
+    echo '<table>';
+    for ($i= 0; $i < $a+1; $i++) {
         echo '<tr>';
-        foreach ($row as $value) {
-            var_dump($row);
-            echo "<td> {$value} </td>";
+        for ($j= 0; $j < $b; $j++) {
+            echo "<td width='20px'> {$array[$i][$j]} </td>";
         }
         echo '</tr>';
     }
+    echo '</table>';
+
 }
 
 $start = microtime(true);
