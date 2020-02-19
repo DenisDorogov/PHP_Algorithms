@@ -1,6 +1,6 @@
 <?php
-$a = 4;
-$b = 4;
+$a = 5;
+$b = 5;
 $array = [];
 $counter = 1;
 $countCycle = 2;
@@ -33,7 +33,7 @@ function spiral($x, $y)
     $start = $x;
     $x = $x - 1;//Убираем номер последней заполненной стороны
     $countCycle++;
-    if ($counter == 16) {
+    if ($counter == 25) {
 
     } else {
         spiral($y, $x);
@@ -47,39 +47,36 @@ function spiralSTD($x, $y)
     global $array, $counter, $a, $b, $iterationLog, $start;
     $j = $start;
     $i = $start;
-    echo 'Start i='. $i. ' j='.$j . PHP_EOL. '<br>';
+//    echo "{$i} - {$j} =>  {$counter} <br>";
     for ($i ; $i < $x - $start - 1; $i++) {//i-столбцы,
         $array[$j][$i] = $counter++; //[строка][столбец]
-        $iterationLog[] = [$i, $start, $counter - 1]; //Отладка
+        echo $i.' - '. $j . ' => ' . $counter . '<br>'; //Отладка
     }
-    echo 'FIRST   i='. $i. ' j='.$j . PHP_EOL. '<br>';
-    $iterationLog[] = ['--', '--'];
+    echo '-- - --<br>';
 
     for ($j ; $j < $y - $start - 1; $j++) {
         $array[$j][$i] = $counter++;
-        $iterationLog[] = [$i, $j, $counter - 1];
+        echo $i.' - '. $j . ' => ' . $counter . '<br>';
     }
-    echo 'SECOND i='. $i. ' j='.$j . PHP_EOL. '<br>';
-    $iterationLog[] = ['--', '--'];
+    echo '-- - --<br>';
 
     for ($i; $i > $start; $i--) {
         $array[$j][$i] = $counter++;
-        $iterationLog[] = [$i, $j, $counter - 1];
+        echo $i.' - '. $j . ' => ' . $counter . '<br>';
     }
-    echo 'THIRD  i='. $i. ' j='.$j . PHP_EOL. '<br>';
-    $iterationLog[] = ['--', '--'];
+    echo '-- - --<br>';
 
-    for ($j; $j > $start+1; $j--) {
+    for ($j; $j > $start; $j--) {
         $array[$j][$i] = $counter++;
-        $iterationLog[] = [$i, $j, $counter - 1];
+        echo $i.' - '. $j . ' => ' . $counter . '<br>';
     }
-    echo 'FOURTH i='. $i. ' j='.$j . PHP_EOL . '<br><br>';
+    echo '======<br>';
 
     $start = $start + 1;
-    $iterationLog[] = ['==', '==', $start];
 
 
-    if ($counter < 20) {
+
+    if ($counter < 25) {
         spiralSTD($y, $x);
     }
 }
@@ -91,8 +88,12 @@ function render($array)
     echo '<table>';
     for ($i = 0; $i < $count + 1; $i++) {
         echo '<tr>';
-        for ($j = 0; $j < count($array[$i]); $j++) {
-            echo "<td width='20px'> {$array[$i][$j]} </td>";
+        if (is_array($array[$i])) {
+            for ($j = 0; $j < count($array[$i]); $j++) {
+                echo "<td width='20px'> {$array[$i][$j]} </td>";
+            }
+        } else {
+            echo "<td width='20px'> {$array[$i]} </td>";
         }
         echo '</tr>';
     }
@@ -102,7 +103,7 @@ function render($array)
 
 //$start = microtime(true);
 spiralSTD($a, $b);
+//spiral($a, $b);
 //echo microtime(true) - $start;
-
+var_dump($array);
 render($array);
-render($iterationLog);
