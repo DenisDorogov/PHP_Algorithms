@@ -1,7 +1,8 @@
 <?php
-const COUNT = 20;
+const COUNT = 20000;
 const MIN_RAND = 1;
 const MAX_RAND = 10000;
+$iter = 0;
 
 function randomArray()
 {
@@ -15,7 +16,8 @@ function randomArray()
 
 function deleteItem($array)
 {
-    $n = mt_rand(0, COUNT);
+    $n = mt_rand(1, COUNT-1);
+    echo "Удалено значение {$array[$n]} <br>";
     array_splice($array, $n, 1);
     return $array;
 }
@@ -24,15 +26,14 @@ function findHole($array)
 {
     $left = 0;
     $right = count($array) - 1;
-    $iter = 0;
-    while ($right - $left >= 1) {
-        $middle = floor(($left + $right) / 2);
-        echo 'Left - ' . $left;
-        echo '| Middle - ' . $middle;
-        echo '| Right - ' . $right . '<br>';
-        if ($middle - $left !== ($array[$middle] - $array[$left])) {
+    global $iter;
+    while ($right - $left >= 2) {
+        $iter++;
+        $middle = (int)floor(($left + $right) / 2);
+
+        if (($middle - $left) !== ($array[$middle] - $array[$left])) {
             $right = $middle;
-        } elseif ($right - $middle !== ($array[$right] - $array[$middle])) {
+        } elseif (($right - $middle) !== ($array[$right] - $array[$middle])) {
             $left = $middle;
         } else {
             echo "Массив не подходит условию";
@@ -41,7 +42,9 @@ function findHole($array)
     return $array[$left] + 1;
 }
 $array = randomArray();
+
+echo 'Отсутствует значение: ' . findHole($array);
+echo " Найдено с помощью  {$iter} итераций";
 var_dump($array);
-echo (findHole($array));
 
 
