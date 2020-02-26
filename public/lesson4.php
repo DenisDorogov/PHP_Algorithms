@@ -25,17 +25,20 @@ function largeSum($n1, $n2)
     }
 
     for ($i = 0; $i < $count1; $i++) {
-        $sum = $n1[$i] + $n2[$i];
+        $sum = $n1[$i] + $n2[$i] + $shift;
+//        echo "sum = $sum <br>";
         if ($sum > 9) {
-            $result = (string)(($sum - 10) + $shift) . $result;
+            $result = (string)(($sum - 10)) . $result;
+//            echo "result = $result <br>";
             $shift = 1;
         } else {
-            $result = (string)($sum + $shift) . $result;
+            $result = (string)($sum) . $result;
+//            echo "result = $result <br>";
             $shift = 0;
         }
     }
     if ($shift == 1) {
-        $result = 'ф1' . $result;
+        $result = '1' . $result;
     }
 
 
