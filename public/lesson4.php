@@ -1,38 +1,58 @@
 <?php
 $file = new SplFileObject('numbers.txt');
-$file->seek(0);
-$num1 = str_split($file->current());
-$file->seek(1);
-$num2 = str_split($file->current());
+
+function preparationNumber($file, $line) {
+    $file->seek($line);
+    $num = $file->current();
+
+    $num = preg_filter('/\D+/', '', $num);
+    echo $num . '<br>';
+    return array_reverse(str_split($num));
+}
 
 function largeSum($n1, $n2)
 {
     $result = '';
     $shift = 0;
-    $count1 = 5;
-    $count2 = 0;
-    if (count($n1) < count($n2)) {
+    $count1 = count($n1);
+    $count2 = count($n2);
+    if ($count1 < $count2) {
         $temp = $n1;
         $n1 = $n2;
         $n2 = $temp;
         $count1 = count($n1);
-        $count2 = count($n2);
+//        $count2 = count($n2);
     }
-    var_dump($count1);
-//    for ($i = $count1; $i >= 0; $i--) {
-//        $sum = $n1[$i] + $n2[$i];
-//        if ($sum > 9) {
-//            $result = $result . (string)(($sum - 10) + $shift);
-//            $shift = 1;
-//        } else {
-//            $result = $result . (string)($sum + $shift);
-//            $shift = 0;
-//        }
-//    }
-    var_dump($result);
+
+    for ($i = 0; $i < $count1; $i++) {
+        $sum = $n1[$i] + $n2[$i];
+        if ($sum > 9) {
+            $result = (string)(($sum - 10) + $shift) . $result;
+            $shift = 1;
+        } else {
+            $result = (string)($sum + $shift) . $result;
+            $shift = 0;
+        }
+    }
+    if ($shift == 1) {
+        $result = 'ф1' . $result;
+    }
+
+
+    return $result;
 }
 
-largeSum($num1, $num2);
+$num1 = preparationNumber($file, 0);
+$num2 = preparationNumber($file, 1);
 
-//var_dump($num1);
-//var_dump($num2);
+$file = new SplFileObject('numbers.txt', 'a');
+
+$answer = largeSum($num1, $num2);
+
+if ($file->fwrite($answer)) {
+    echo "Результат записан в файл <br>";
+    echo "Сумма равна: {$answer}";
+}
+
+
+
