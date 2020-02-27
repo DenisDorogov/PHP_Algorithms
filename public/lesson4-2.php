@@ -28,8 +28,10 @@ function inPower($a, $n)
     return strrev(implode($result));
 }
 
+$file = new SplFileObject('answer.txt', 'a');
 $start = microtime(true);
-echo inPower($a, $n);
-$time =  microtime(true) - $start;
+$file->fwrite("{$a}^{$n} = " . inPower($a, $n) . PHP_EOL);
+$time = microtime(true) - $start;
+$file->fwrite("Время выполнения {$time} с.". PHP_EOL);
 echo "<br> Время выполнения {$time} с.";
 //echo 3+ null;
